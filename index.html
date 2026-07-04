@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Database</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
+        body { background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100dvh; padding: 20px; }
+        .profile-card { background: #ffffff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px; padding: 30px; text-align: center; }
+        .student-name { font-size: 24px; color: #333; margin-bottom: 5px; }
+        .student-id { font-size: 14px; color: #777; margin-bottom: 25px; }
+        .info-group { text-align: left; border-top: 1px solid #eee; padding: 12px 0; }
+        .info-label { font-size: 12px; color: #999; font-weight: bold; text-transform: uppercase; }
+        .info-value { font-size: 16px; color: #333; margin-top: 3px; }
+    </style>
+</head>
+<body>
+
+    <div class="profile-card">
+        <h2 id="studentName" class="student-name">Loading...</h2>
+        <p id="studentRoll" class="student-id">Roll No: --</p>
+
+        <div class="info-group">
+            <div class="info-label">Class & Section</div>
+            <div id="studentClass" class="info-value">--</div>
+        </div>
+
+        <div class="info-group">
+            <div class="info-label">Blood Group</div>
+            <div id="studentBlood" class="info-value">--</div>
+        </div>
+    </div>
+
+    <script>
+        // 1. Your mini student database
+        const students = {
+            "24": { name: "Alex Carter", class: "Grade 10-A", blood: "O+" },
+            "25": { name: "Emma Watson", class: "Grade 10-B", blood: "A+" },
+            "26": { name: "John Doe", class: "Grade 11-A", blood: "B-" }
+        };
+
+        // 2. Read the URL parameter (e.g., ?id=24)
+        const urlParams = new URLSearchParams(window.location.search);
+        const studentId = urlParams.get('id');
+
+        // 3. Update the page with the scanned student's data
+        if (studentId && students[studentId]) {
+            document.getElementById('studentName').innerText = students[studentId].name;
+            document.getElementById('studentRoll').innerText = "Roll No: #" + studentId;
+            document.getElementById('studentClass').innerText = students[studentId].class;
+            document.getElementById('studentBlood').innerText = students[studentId].blood;
+        } else {
+            document.getElementById('studentName').innerText = "Student Not Found";
+        }
+    </script>
+</body>
+</html>
