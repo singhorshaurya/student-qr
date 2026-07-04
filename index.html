@@ -3,56 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Student Database</title>
+    <title>Student Verification Portal</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: sans-serif; }
-        body { background-color: #f4f6f9; display: flex; justify-content: center; align-items: center; min-height: 100dvh; padding: 20px; }
-        .profile-card { background: #ffffff; border-radius: 15px; box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); width: 100%; max-width: 400px; padding: 30px; text-align: center; }
-        .student-name { font-size: 24px; color: #333; margin-bottom: 5px; }
-        .student-id { font-size: 14px; color: #777; margin-bottom: 25px; }
-        .info-group { text-align: left; border-top: 1px solid #eee; padding: 12px 0; }
-        .info-label { font-size: 12px; color: #999; font-weight: bold; text-transform: uppercase; }
-        .info-value { font-size: 16px; color: #333; margin-top: 3px; }
+        :root {
+            --bg-gradient: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            --card-bg: rgba(30, 41, 59, 0.7);
+            --border-color: rgba(255, 255, 255, 0.08);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --accent-blue: #38bdf8;
+            --accent-green: #4ade80;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+
+        body {
+            background: var(--bg-gradient);
+            color: var(--text-primary);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100dvh;
+            padding: 1.5rem;
+        }
+
+        .portal-container {
+            width: 100%;
+            max-width: 440px;
+        }
+
+        .profile-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 24px;
+            padding: 2.5rem 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            text-align: center;
+        }
+
+        .avatar-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--accent-blue);
+            background: #334155;
+        }
+
+        .status-badge {
+            position: absolute;
+            bottom: 0;
+            right: 4px;
+            background: var(--accent-green);
+            color: #0f172a;
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            border: 2px solid #1e293b;
+            text-transform: uppercase;
+        }
+
+        .student-name {
+            font-size: 1.6rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 0.25rem;
+        }
+
+        .student-uid {
+            font-size: 0.85rem;
+            color: var(--accent-blue);
+            font-family: monospace;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            text-transform: uppercase;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.25rem;
+            text-align: left;
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: span 2;
+        }
+
+        .info-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.25rem;
+            font-weight: 600;
+        }
+
+        .info-value {
+            font-size: 1rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+
+        .footer-verification {
+            border-top: 1px solid var(--border-color);
+            padding-top: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .secure-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            box-shadow: 0 0 8px var(--accent-green);
+        }
+
+        .error-state { color: #ef4444; }
+        .error-state .student-uid { color: #ef4444; }
+        .error-state .profile-img { border-color: #ef4444; }
     </style>
 </head>
 <body>
 
-    <div class="profile-card">
-        <h2 id="studentName" class="student-name">Loading...</h2>
-        <p id="studentRoll" class="student-id">Roll No: --</p>
+    <div class="portal-container">
+        <div class="profile-card" id="card">
+            <div class="avatar-container">
+                <img id="studentPhoto" src="https://api.dicebear.com/7.x/initials/svg?seed=fallback" alt="Avatar" class="profile-img">
+                <span id="statusLabel" class="status-badge">Active</span>
+            </div>
+            
+            <h2 id="studentName" class="student-name">Loading Profile...</h2>
+            <p id="studentUid" class="student-uid">UID: Checking...</p>
 
-        <div class="info-group">
-            <div class="info-label">Class & Section</div>
-            <div id="studentClass" class="info-value">--</div>
-        </div>
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Class & Section</span>
+                    <span id="studentClass" class="info-value">—</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Roll Number</span>
+                    <span id="studentRoll" class="info-value">—</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Admission No</span>
+                    <span id="studentAdm" class="info-value">—</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Father's Name</span>
+                    <span id="studentFather" class="info-value">—</span>
+                </div>
+                <div class="info-item full-width">
+                    <span class="info-label">Mother's Name</span>
+                    <span id="studentMother" class="info-value">—</span>
+                </div>
+            </div>
 
-        <div class="info-group">
-            <div class="info-label">Blood Group</div>
-            <div id="studentBlood" class="info-value">--</div>
+            <div class="footer-verification">
+                <div class="secure-dot"></div>
+                <span id="verificationStatus">Verified Student Directory Connection</span>
+            </div>
         </div>
     </div>
 
     <script>
-        // 1. Your mini student database
-        const students = {
-            "24": { name: "Alex Carter", class: "Grade 10-A", blood: "O+" },
-            "25": { name: "Emma Watson", class: "Grade 10-B", blood: "A+" },
-            "26": { name: "John Doe", class: "Grade 11-A", blood: "B-" }
+        // Full Class XI-A Database (S.No 1 to 40)
+        const studentDatabase = {
+            "1": { name: "AAYUSH RAWAT", adm: "135-21", father: "MR. K S RAWAT", mother: "MRS. KAMLA RAWAT" },
+            "2": { name: "ADITYA BISHT", adm: "250-24", father: "MR. RAMESH S BISHT", mother: "MRS. MANJU BISHT" },
+            "3": { name: "ADITYA NEGI", adm: "167-24", father: "MR. DEEPAK S NEGI", mother: "MRS. MADHURI NEGI" },
+            "4": { name: "AKSHAT JOSHI", adm: "257-24", father: "MR. DEWANAND JOSHI", mother: "MRS. DEEPA JOSHI" },
+            "5": { name: "ANSH THAPA", adm: "114-14", father: "MR. RAMESH S THAPA", mother: "MRS. LALITA THAPA" },
+            "6": { name: "ANSHIKA JOSHI", adm: "258-24", father: "MR. DEWANAND JOSHI", mother: "MRS. DEEPA JOSHI" },
+            "7": { name: "ANURAG", adm: "128-14", father: "MR. PURAN CHAND", mother: "MRS. MANJU DEVI" },
+            "8": { name: "AYUSH JUYAL", adm: "172-24", father: "MR. ANIL JUYAL", mother: "MRS. PREMA JUYAL" },
+            "9": { name: "BHUMIKA CHAUHAN", adm: "118-14", father: "MR. DHARMENDRA S CHAUHAN", mother: "MRS. PREETI CHAUHAN" },
+            "10": { name: "DEEPANSHU NEGI", adm: "136-14", father: "MR. SURENDRA S NEGI", mother: "MRS. MEENA NEGI" },
+            "11": { name: "DIYA BISHT", adm: "282-24", father: "MR. RAJENDRA S BISHT", mother: "MRS. DEEPA BISHT" },
+            "12": { name: "GARIMA BHANDARI", adm: "277-24", father: "MR. RAGHUBIR S BHANDARI", mother: "MRS. MANJU BHANDARI" },
+            "13": { name: "GOURAV S CHAUHAN", adm: "125-14", father: "MR. PREM SINGH CHAUHAN", mother: "MRS. ANITA DEVI" },
+            "14": { name: "HARSHIT", adm: "148-14", father: "MR. KISHAN CHAND", mother: "MRS. RADHA DEVI" },
+            "15": { name: "HIMANSHU PANDEY", adm: "151-14", father: "MR. DAYASHANKAR PANDEY", mother: "MRS. DEEPA PANDEY" },
+            "16": { name: "ISHIKA KUKRETI", adm: "153-14", father: "MR. RAMESH KUKRETI", mother: "MRS. USHA KUKRETI" },
+            "17": { name: "JATIN DEVRANI", adm: "163-14", father: "MR. VIJAY S DEVRANI", mother: "MRS. REENA DEVRANI" },
+            "18": { name: "LAKSHYA NEGI", adm: "264-24", father: "MR. MANVAR S NEGI", mother: "MRS. MADHU NEGI" },
+            "19": { name: "MANSI RAWAT", adm: "186-14", father: "MR. SHYAM S RAWAT", mother: "MRS. REEMA RAWAT" },
+            "20": { name: "MAYANK RAWAT", adm: "188-14", father: "MR. SURENDRA S RAWAT", mother: "MRS. PREMA RAWAT" },
+            "21": { name: "NAITIK RAWAT", adm: "193-14", father: "MR. DEVI S RAWAT", mother: "MRS. SUMAN RAWAT" },
+            "22": { name: "NIKITA RAWAT", adm: "196-14", father: "MR. GABBAR S RAWAT", mother: "MRS. RADHA RAWAT" },
+            "23": { name: "OM GAIROLA", adm: "198-14", father: "MR. KRISHAN GAIROLA", mother: "MRS. LAXMI GAIROLA" },
+            "24": { name: "PIYUSH", adm: "202-14", father: "MR. PURAN S NEGI", mother: "MRS. KAVITA NEGI" },
+            "25": { name: "PRATHAM JEENA", adm: "207-14", father: "MR. K S JEENA", mother: "MRS. ANANDI JEENA" },
+            "26": { name: "PRIYANSHU JUYAL", adm: "213-14", father: "MR. PRADEEP JUYAL", mother: "MRS. LALITA JUYAL" },
+            "27": { name: "RAKSHITA SHARMA", adm: "266-24", father: "MR. KULDEEP SHARMA", mother: "MRS. CHANCHAL SHARMA" },
+            "28": { name: "RIYA NEGI", adm: "223-14", father: "MR. S S NEGI", mother: "MRS. POONAM NEGI" },
+            "29": { name: "SAKSHI KUKRETI", adm: "228-14", father: "MR. BHAGWATI P KUKRETI", mother: "MRS. ARCHANA KUKRETI" },
+            "30": { name: "SANKALPA NAITHANI", adm: "273-24", father: "MR. VIJAY P NAITHANI", mother: "MRS. PREMA NAITHANI" },
+            "31": { name: "SHREYA BARTHWAL", adm: "235-14", father: "MR. SANJEEV BARTHWAL", mother: "MRS. KANCHAN BARTHWAL" },
+            "32": { name: "SHREYA JUYAL", adm: "236-14", father: "MR. VIJAY JUYAL", mother: "MRS. GUDDI JUYAL" },
+            "33": { name: "SIDDHARTH CHAND", adm: "240-14", father: "MR. KISHAN CHAND", mother: "MRS. RADHA DEVI" },
+            "34": { name: "SNEHA RANA", adm: "276-24", father: "MR. ANIL S RANA", mother: "MRS. REENA RANA" },
+            "35": { name: "SUMIT NAITHANI", adm: "244-14", father: "MR. ACHYUTANAND NAITHANI", mother: "MRS. SHASHI NAITHANI" },
+            "36": { name: "TANISH CHAUHAN", adm: "274-24", father: "MR. VIRENDRA S CHAUHAN", mother: "MRS. REKHA CHAUHAN" },
+            "37": { name: "TANUJA", adm: "247-14", father: "MR. RAJENDRA S BISHT", mother: "MRS. GITA BISHT" },
+            "38": { name: "VAIBHAV BARTWAL", adm: "281-24", father: "MR. BRIJMOHAN S BARTWAL", mother: "MRS. SUDHA BARTWAL" },
+            "39": { name: "VANSHIKA", adm: "252-14", father: "MR. ANIL S JEENA", mother: "MRS. DEEPA JEENA" },
+            "40": { name: "YASHASVI SHARMA", adm: "256-14", father: "MR. KAUSHAL K SHARMA", mother: "MRS. RADHA SHARMA" }
         };
 
-        // 2. Read the URL parameter (e.g., ?id=24)
-        const urlParams = new URLSearchParams(window.location.search);
-        const studentId = urlParams.get('id');
+        function initializePortal() {
+            const urlParameters = new URLSearchParams(window.location.search);
+            const targetId = urlParameters.get('id');
+            const cardElement = document.getElementById('card');
 
-        // 3. Update the page with the scanned student's data
-        if (studentId && students[studentId]) {
-            document.getElementById('studentName').innerText = students[studentId].name;
-            document.getElementById('studentRoll').innerText = "Roll No: #" + studentId;
-            document.getElementById('studentClass').innerText = students[studentId].class;
-            document.getElementById('studentBlood').innerText = students[studentId].blood;
-        } else {
-            document.getElementById('studentName').innerText = "Student Not Found";
+            if (targetId && studentDatabase[targetId]) {
+                const data = studentDatabase[targetId];
+
+                document.getElementById('studentName').innerText = data.name;
+                document.getElementById('studentUid').innerText = "ROLL NO: " + targetId;
+                document.getElementById('studentClass').innerText = "XI - A";
+                document.getElementById('studentRoll').innerText = targetId;
+                document.getElementById('studentAdm').innerText = data.adm;
+                document.getElementById('studentFather').innerText = data.father;
+                document.getElementById('studentMother').innerText = data.mother;
+                
+                document.getElementById('studentPhoto').src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(data.name)}&backgroundType=gradientLinear`;
+                document.title = `${data.name} - Profile`;
+            } else {
+                cardElement.classList.add('error-state');
+                document.getElementById('studentName').innerText = "Invalid Scan";
+                document.getElementById('studentUid').innerText = "ERROR: STUDENT NOT FOUND";
+                document.getElementById('statusLabel').innerText = "FAIL";
+                document.getElementById('statusLabel').style.background = "#ef4444";
+                document.getElementById('studentPhoto').src = "https://api.dicebear.com/7.x/icons/svg?seed=warning&icon=shieldAlert";
+                document.getElementById('verificationStatus').innerText = "Record Missing from Directory Core.";
+                
+                const fields = ['studentClass', 'studentRoll', 'studentAdm', 'studentFather', 'studentMother'];
+                fields.forEach(f => document.getElementById(f).innerText = "UNAUTHORIZED");
+            }
         }
+
+        window.addEventListener('DOMContentLoaded', initializePortal);
     </script>
 </body>
 </html>
