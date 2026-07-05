@@ -141,54 +141,54 @@
                     </tr>
                 </thead>
                 <tbody id="tableBody">
-                    </tbody>
+                </tbody>
             </table>
         </div>
     </div>
 
     <script>
-        // Complete 40-student dataset mapped directly from your excel sheets
+        // Complete 40-student dataset mapped directly from your excel sheets (Spellings Corrected)
         const students = [
             { s: 1, adm: "R-26/2374", name: "AADYA JAIN", house: "Yamuna", sub: "Artificial Intelligence" },
-            { s: 2, adm: "R-24/2478", name: "AARAV BAROLIA", house: "Gange", sub: "Physical Education (048)" },
+            { s: 2, adm: "R-24/2478", name: "AARAV BAROLIA", house: "Ganges", sub: "Physical Education (048)" },
             { s: 3, adm: "R-21/1012", name: "AARAV JAIN", house: "Jhelum", sub: "Artificial Intelligence" },
-            { s: 4, adm: "R-23/2035", name: "AARAV SINGH", house: "Gange", sub: "Physical Education (048)" },
-            { s: 5, adm: "R-16/0172", name: "ADITYA SINGH", house: "Gange", sub: "Physical Education (048)" },
-            { s: 6, adm: "R-23/1973", name: "AMAN ARIF", house: "Chena", sub: "Physical Education (048)" },
+            { s: 4, adm: "R-23/2035", name: "AARAV SINGH", house: "Ganges", sub: "Physical Education (048)" },
+            { s: 5, adm: "R-16/0172", name: "ADITYA SINGH", house: "Ganges", sub: "Physical Education (048)" },
+            { s: 6, adm: "R-23/1973", name: "AMAN ARIF", house: "Chenab", sub: "Physical Education (048)" },
             { s: 7, adm: "R-22/1184", name: "AMOGH GOEL", house: "Jhelum", sub: "Physical Education (048)" },
-            { s: 8, adm: "R-22/1161", name: "ANANT DAHIYA", house: "Yamun", sub: "Computer Science (083)" },
-            { s: 9, adm: "R-26/2822", name: "ANSHUMAN TYAGI", house: "Chena", sub: "Physical Education (048)" },
+            { s: 8, adm: "R-22/1161", name: "ANANT DAHIYA", house: "Yamuna", sub: "Computer Science (083)" },
+            { s: 9, adm: "R-26/2822", name: "ANSHUMAN TYAGI", house: "Chenab", sub: "Physical Education (048)" },
             { s: 10, adm: "R-22/1532", name: "ARADHYA SINGH", house: "Jhelum", sub: "Artificial Intelligence" },
             { s: 11, adm: "R-23/2080", name: "ARCHIT MISHRA", house: "Jhelum", sub: "Physical Education (048)" },
-            { s: 12, adm: "R-19/461", name: "ARIHANT SINGH", house: "Chena", sub: "Physical Education (048)" },
-            { s: 13, adm: "R-22/1584", name: "ARJUN GAUR", house: "Gange", sub: "Artificial Intelligence" },
+            { s: 12, adm: "R-19/461", name: "ARIHANT SINGH", house: "Chenab", sub: "Physical Education (048)" },
+            { s: 13, adm: "R-22/1584", name: "ARJUN GAUR", house: "Ganges", sub: "Artificial Intelligence" },
             { s: 14, adm: "R-22/1559", name: "ARNAV", house: "Jhelum", sub: "Physical Education (048)" },
-            { s: 15, adm: "R-22/1543", name: "ARNAV TYAGI", house: "Yamun", sub: "Physical Education (048)" },
-            { s: 16, adm: "R-24/2324", name: "ARUNABH TYAGI", house: "Chena", sub: "Computer Science (083)" },
+            { s: 15, adm: "R-22/1543", name: "ARNAV TYAGI", house: "Yamuna", sub: "Physical Education (048)" },
+            { s: 16, adm: "R-24/2324", name: "ARUNABH TYAGI", house: "Chenab", sub: "Computer Science (083)" },
             { s: 17, adm: "R-15/0045", name: "AVI VERMA", house: "Jhelum", sub: "Artificial Intelligence" },
-            { s: 18, adm: "R-25/2577", name: "AYUSHMAAN MISHRA", house: "Gange", sub: "Artificial Intelligence" },
-            { s: 19, adm: "R-21/1007", name: "DEVESH SINGH", house: "Gange", sub: "Physical Education (048)" },
-            { s: 20, adm: "R-23/2060", name: "GOURAV KUMAR", house: "Chena", sub: "Physical Education (048)" },
-            { s: 21, adm: "R-24/2307", name: "KRISHNA TYAGI", house: "Yamun", sub: "Physical Education (048)" },
+            { s: 18, adm: "R-25/2577", name: "AYUSHMAAN MISHRA", house: "Ganges", sub: "Artificial Intelligence" },
+            { s: 19, adm: "R-21/1007", name: "DEVESH SINGH", house: "Ganges", sub: "Physical Education (048)" },
+            { s: 20, adm: "R-23/2060", name: "GOURAV KUMAR", house: "Chenab", sub: "Physical Education (048)" },
+            { s: 21, adm: "R-24/2307", name: "KRISHNA TYAGI", house: "Yamuna", sub: "Physical Education (048)" },
             { s: 22, adm: "R-24/2487", name: "MANAN DAKSH", house: "Jhelum", sub: "Computer Science (083)" },
-            { s: 23, adm: "R-22/1507", name: "NAITIK TYAGI", house: "Chena", sub: "Physical Education (048)" },
+            { s: 23, adm: "R-22/1507", name: "NAITIK TYAGI", house: "Chenab", sub: "Physical Education (048)" },
             { s: 24, adm: "R-16/196", name: "NAVYA RASTOGI", house: "Jhelum", sub: "Physical Education (048)" },
             { s: 25, adm: "R-23/1923", name: "NIYATI JAIN", house: "Jhelum", sub: "Artificial Intelligence" },
             { s: 26, adm: "R-19/535", name: "PARAM VATS", house: "Jhelum", sub: "Physical Education (048)" },
             { s: 27, adm: "R-26/3006", name: "RIDDHIMA GUPTA", house: "Jhelum", sub: "Computer Science (083)" },
-            { s: 28, adm: "R-22/1077", name: "SAMAR PRATAP SINGH", house: "Gange", sub: "Physical Education (048)" },
-            { s: 29, adm: "R-18/307", name: "SHARANYA", house: "Yamun", sub: "Artificial Intelligence" },
+            { s: 28, adm: "R-22/1077", name: "SAMAR PRATAP SINGH", house: "Ganges", sub: "Physical Education (048)" },
+            { s: 29, adm: "R-18/307", name: "SHARANYA", house: "Yamuna", sub: "Artificial Intelligence" },
             { s: 30, adm: "R-21/932", name: "SHAURYA SINGH", house: "Jhelum", sub: "Physical Education (048)" },
-            { s: 31, adm: "R-26/3002", name: "SHOURYA BALI", house: "Yamun", sub: "Physical Education (048)" },
-            { s: 32, adm: "R-24/2472", name: "SHREYANSH GUPTA", house: "Yamun", sub: "Physical Education (048)" },
+            { s: 31, adm: "R-26/3002", name: "SHOURYA BALI", house: "Yamuna", sub: "Physical Education (048)" },
+            { s: 32, adm: "R-24/2472", name: "SHREYANSH GUPTA", house: "Yamuna", sub: "Physical Education (048)" },
             { s: 33, adm: "R-16/0032", name: "SPANDAN BHARGAVA", house: "Jhelum", sub: "Physical Education (048)" },
             { s: 34, adm: "R-21/1013", name: "SURAJ CHAUDHARY", house: "Jhelum", sub: "Physical Education (048)" },
-            { s: 35, adm: "R-22/1211", name: "VANSH KUMAR", house: "Yamun", sub: "Artificial Intelligence" },
-            { s: 36, adm: "R-21/978", name: "VASU BHARDWAJ", house: "Yamun", sub: "Physical Education (048)" },
-            { s: 37, adm: "R-15/0005", name: "VIHAAN YADAV", house: "Yamun", sub: "Physical Education (048)" },
-            { s: 38, adm: "R-23/2013", name: "VIRAJ TRIPATHI", house: "Yamun", sub: "Psychology (037)" },
-            { s: 39, adm: "R-26/2877", name: "VISHESH", house: "Yamun", sub: "Physical Education (048)" },
-            { s: 40, adm: "R-24/2335", name: "YAHVI UPADHYAY", house: "Chena", sub: "Psychology (037)" }
+            { s: 35, adm: "R-22/1211", name: "VANSH KUMAR", house: "Yamuna", sub: "Artificial Intelligence" },
+            { s: 36, adm: "R-21/978", name: "VASU BHARDWAJ", house: "Yamuna", sub: "Physical Education (048)" },
+            { s: 37, adm: "R-15/0005", name: "VIHAAN YADAV", house: "Yamuna", sub: "Physical Education (048)" },
+            { s: 38, adm: "R-23/2013", name: "VIRAJ TRIPATHI", house: "Yamuna", sub: "Psychology (037)" },
+            { s: 39, adm: "R-26/2877", name: "VISHESH", house: "Yamuna", sub: "Physical Education (048)" },
+            { s: 40, adm: "R-24/2335", name: "YAHVI UPADHYAY", house: "Chenab", sub: "Psychology (037)" }
         ];
 
         const tbody = document.getElementById('tableBody');
