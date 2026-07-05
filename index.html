@@ -12,7 +12,8 @@
             --text-primary: #f8fafc;
             --text-secondary: #94a3b8;
             --accent-blue: #38bdf8;
-            --accent-green: #34d399; /* Added a fresh color for sports badges */
+            --accent-green: #34d399;
+            --accent-purple: #c084fc;
             --table-hover: #24334d;
         }
 
@@ -33,7 +34,7 @@
 
         .container {
             width: 100%;
-            max-width: 1200px; /* Widened slightly to accommodate the new column nicely */
+            max-width: 1400px; /* Widened slightly for seamless multi-column tracking */
         }
 
         .header {
@@ -129,6 +130,20 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
+
+        .badge-skill {
+            background: rgba(192, 132, 252, 0.15);
+            color: var(--accent-purple);
+            padding: 0.25rem 0.5rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .unassigned {
+            background: rgba(148, 163, 184, 0.1);
+            color: #64748b;
+        }
     </style>
 </head>
 <body>
@@ -148,7 +163,9 @@
                         <th>Student Name</th>
                         <th>House</th>
                         <th>Subject-5 (Optional)</th>
-                        <th>Morning Sports</th> </tr>
+                        <th>Morning Sports</th>
+                        <th>Skill Activity</th>
+                    </tr>
                 </thead>
                 <tbody id="tableBody">
                 </tbody>
@@ -157,60 +174,65 @@
     </div>
 
     <script>
-        // Data structure ready to receive your morning sports assignments
         const students = [
-            { s: 1, adm: "R-26/2374", name: "AADYA JAIN", house: "Yamuna", sub: "Artificial Intelligence", sport: "Basketball" },
-            { s: 2, adm: "R-24/2478", name: "AARAV BAROLIA", house: "Ganges", sub: "Physical Education (048)", sport: "Chess" },
-            { s: 3, adm: "R-21/1012", name: "AARAV JAIN", house: "Jhelum", sub: "Artificial Intelligence", sport: "Table Tennis" },
-            { s: 4, adm: "R-23/2035", name: "AARAV SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Badminton" },
-            { s: 5, adm: "R-16/0172", name: "ADITYA SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football" },
-            { s: 6, adm: "R-23/1973", name: "AMAN ARIF", house: "Chenab", sub: "Physical Education (048)", sport: "Table Tennis" },
-            { s: 7, adm: "R-22/1184", name: "AMOGH GOEL", house: "Jhelum", sub: "Physical Education (048)", sport: "Chess" },
-            { s: 8, adm: "R-22/1161", name: "ANANT DAHIYA", house: "Yamuna", sub: "Computer Science (083)", sport: "Badminton" },
-            { s: 9, adm: "R-26/2822", name: "ANSHUMAN TYAGI", house: "Chenab", sub: "Physical Education (048)", sport: "Cricket" },
-            { s: 10, adm: "R-22/1532", name: "ARADHYA SINGH", house: "Jhelum", sub: "Artificial Intelligence", sport: "Lawn Tennis" },
-            { s: 11, adm: "R-23/2080", name: "ARCHIT MISHRA", house: "Jhelum", sub: "Physical Education (048)", sport: "Cricket" },
-            { s: 12, adm: "R-19/461", name: "ARIHANT SINGH", house: "Chenab", sub: "Physical Education (048)", sport: "" },
-            { s: 13, adm: "R-22/1584", name: "ARJUN GAUR", house: "Ganges", sub: "Artificial Intelligence", sport: "Football" },
-            { s: 14, adm: "R-22/1559", name: "ARNAV", house: "Jhelum", sub: "Physical Education (048)", sport: "Chess" },
-            { s: 15, adm: "R-22/1543", name: "ARNAV TYAGI", house: "Yamuna", sub: "Physical Education (048)", sport: "Badminton" },
-            { s: 16, adm: "R-24/2324", name: "ARUNABH TYAGI", house: "Chenab", sub: "Computer Science (083)", sport: "Cricket" },
-            { s: 17, adm: "R-15/0045", name: "AVI VERMA", house: "Jhelum", sub: "Artificial Intelligence", sport: "Cricket" },
-            { s: 18, adm: "R-25/2577", name: "AYUSHMAAN MISHRA", house: "Ganges", sub: "Artificial Intelligence", sport: "Shooting" },
-            { s: 19, adm: "R-21/1007", name: "DEVESH SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football" },
-            { s: 20, adm: "R-23/2060", name: "GOURAV KUMAR", house: "Chenab", sub: "Physical Education (048)", sport: "Cricket" },
-            { s: 21, adm: "R-24/2307", name: "KRISHNA TYAGI", house: "Yamuna", sub: "Physical Education (048)", sport: "Basketball" },
-            { s: 22, adm: "R-24/2487", name: "MANAN DAKSH", house: "Jhelum", sub: "Computer Science (083)", sport: "Basketball" },
-            { s: 23, adm: "R-22/1507", name: "NAITIK TYAGI", house: "Chenab", sub: "Physical Education (048)", sport: "Athletics" },
-            { s: 24, adm: "R-16/196", name: "NAVYA RASTOGI", house: "Jhelum", sub: "Physical Education (048)", sport: "Lawn Tennis" },
-            { s: 25, adm: "R-23/1923", name: "NIYATI JAIN", house: "Jhelum", sub: "Artificial Intelligence", sport: "Basketball" },
-            { s: 26, adm: "R-19/535", name: "PARAM VATS", house: "Jhelum", sub: "Physical Education (048)", sport: "Football" },
-            { s: 27, adm: "R-26/3006", name: "RIDDHIMA GUPTA", house: "Jhelum", sub: "Computer Science (083)", sport: "Basketball" },
-            { s: 28, adm: "R-22/1077", name: "SAMAR PRATAP SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football" },
-            { s: 29, adm: "R-18/307", name: "SHARANYA", house: "Yamuna", sub: "Artificial Intelligence", sport: "Badminton" },
-            { s: 30, adm: "R-21/932", name: "SHAURYA SINGH", house: "Jhelum", sub: "Physical Education (048)", sport: "Football" },
-            { s: 31, adm: "R-26/3002", name: "SHOURYA BALI", house: "Yamuna", sub: "Physical Education (048)", sport: "Athletics" },
-            { s: 32, adm: "R-24/2472", name: "SHREYANSH GUPTA", house: "Yamuna", sub: "Physical Education (048)", sport: "Basketball" },
-            { s: 33, adm: "R-16/0032", name: "SPANDAN BHARGAVA", house: "Jhelum", sub: "Physical Education (048)", sport: "Basketball" },
-            { s: 34, adm: "R-21/1013", name: "SURAJ CHAUDHARY", house: "Jhelum", sub: "Physical Education (048)", sport: "" },
-            { s: 35, adm: "R-22/1211", name: "VANSH KUMAR", house: "Yamuna", sub: "Artificial Intelligence", sport: "Athletics" },
-            { s: 36, adm: "R-21/978", name: "VASU BHARDWAJ", house: "Yamuna", sub: "Physical Education (048)", sport: "Football" },
-            { s: 37, adm: "R-15/0005", name: "VIHAAN YADAV", house: "Yamuna", sub: "Physical Education (048)", sport: "" },
-            { s: 38, adm: "R-23/2013", name: "VIRAJ TRIPATHI", house: "Yamuna", sub: "Psychology (037)", sport: "Badminton" },
-            { s: 39, adm: "R-26/2877", name: "VISHESH", house: "Yamuna", sub: "Physical Education (048)", sport: "Football" },
-            { s: 40, adm: "R-24/2335", name: "YAHVI UPADHYAY", house: "Chenab", sub: "Psychology (037)", sport: "Badminton" }
+            { s: 1, adm: "R-26/2374", name: "AADYA JAIN", house: "Yamuna", sub: "Artificial Intelligence", sport: "Basketball", skill: "Declamation" },
+            { s: 2, adm: "R-24/2478", name: "AARAV BAROLIA", house: "Ganges", sub: "Physical Education (048)", sport: "Chess", skill: "Unassigned" },
+            { s: 3, adm: "R-21/1012", name: "AARAV JAIN", house: "Jhelum", sub: "Artificial Intelligence", sport: "Table Tennis", skill: "Snap Sphere" },
+            { s: 4, adm: "R-23/2035", name: "AARAV SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Badminton", skill: "Unassigned" },
+            { s: 5, adm: "R-16/0172", name: "ADITYA SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football", skill: "Anveshan" },
+            { s: 6, adm: "R-23/1973", name: "AMAN ARIF", house: "Chenab", sub: "Physical Education (048)", sport: "Table Tennis", skill: "Unassigned" },
+            { s: 7, adm: "R-22/1184", name: "AMOGH GOEL", house: "Jhelum", sub: "Physical Education (048)", sport: "Chess", skill: "Unassigned" },
+            { s: 8, adm: "R-22/1161", name: "ANANT DAHIYA", house: "Yamuna", sub: "Computer Science (083)", sport: "Badminton", skill: "CodeCrafters" },
+            { s: 9, adm: "R-26/2822", name: "ANSHUMAN TYAGI", house: "Chenab", sub: "Physical Education (048)", sport: "Cricket", skill: "CodeCrafters" },
+            { s: 10, adm: "R-22/1532", name: "ARADHYA SINGH", house: "Jhelum", sub: "Artificial Intelligence", sport: "Lawn Tennis", skill: "Reader's Den" },
+            { s: 11, adm: "R-23/2080", name: "ARCHIT MISHRA", house: "Jhelum", sub: "Physical Education (048)", sport: "Cricket", skill: "Snap Sphere" },
+            { s: 12, adm: "R-19/461", name: "ARIHANT SINGH", house: "Chenab", sub: "Physical Education (048)", sport: "", skill: "Unassigned" },
+            { s: 13, adm: "R-22/1584", name: "ARJUN GAUR", house: "Ganges", sub: "Artificial Intelligence", sport: "Football", skill: "Wealth Wisdom" },
+            { s: 14, adm: "R-22/1559", name: "ARNAV", house: "Jhelum", sub: "Physical Education (048)", sport: "Chess", skill: "Unassigned" },
+            { s: 15, adm: "R-22/1543", name: "ARNAV TYAGI", house: "Yamuna", sub: "Physical Education (048)", sport: "Badminton", skill: "MUN" },
+            { s: 16, adm: "R-24/2324", name: "ARUNABH TYAGI", house: "Chenab", sub: "Computer Science (083)", sport: "Cricket", skill: "CodeCrafters" },
+            { s: 17, adm: "R-15/0045", name: "AVI VERMA", house: "Jhelum", sub: "Artificial Intelligence", sport: "Cricket", skill: "Wealth Wisdom" },
+            { s: 18, adm: "R-25/2577", name: "AYUSHMAAN MISHRA", house: "Ganges", sub: "Artificial Intelligence", sport: "Shooting", skill: "Unassigned" },
+            { s: 19, adm: "R-21/1007", name: "DEVESH SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football", skill: "Unassigned" },
+            { s: 20, adm: "R-23/2060", name: "GOURAV KUMAR", house: "Chenab", sub: "Physical Education (048)", sport: "Cricket", skill: "Snap Sphere" },
+            { s: 21, adm: "R-24/2307", name: "KRISHNA TYAGI", house: "Yamuna", sub: "Physical Education (048)", sport: "Basketball", skill: "Inno Ventures" },
+            { s: 22, adm: "R-24/2487", name: "MANAN DAKSH", house: "Jhelum", sub: "Computer Science (083)", sport: "Basketball", skill: "Unassigned" },
+            { s: 23, adm: "R-22/1507", name: "NAITIK TYAGI", house: "Chenab", sub: "Physical Education (048)", sport: "Athletics", skill: "Unassigned" },
+            { s: 24, adm: "R-16/196", name: "NAVYA RASTOGI", house: "Jhelum", sub: "Physical Education (048)", sport: "Lawn Tennis", skill: "MUN" },
+            { s: 25, adm: "R-23/1923", name: "NIYATI JAIN", house: "Jhelum", sub: "Artificial Intelligence", sport: "Basketball", skill: "Unassigned" },
+            { s: 26, adm: "R-19/535", name: "PARAM VATS", house: "Jhelum", sub: "Physical Education (048)", sport: "Football", skill: "Unassigned" },
+            { s: 27, adm: "R-26/3006", name: "RIDDHIMA GUPTA", house: "Jhelum", sub: "Computer Science (083)", sport: "Basketball", skill: "Declamation" },
+            { s: 28, adm: "R-22/1077", name: "SAMAR PRATAP SINGH", house: "Ganges", sub: "Physical Education (048)", sport: "Football", skill: "Unassigned" },
+            { s: 29, adm: "R-18/307", name: "SHARANYA", house: "Yamuna", sub: "Artificial Intelligence", sport: "Badminton", skill: "Declamation" },
+            { s: 30, adm: "R-21/932", name: "SHAURYA SINGH", house: "Jhelum", sub: "Physical Education (048)", sport: "Football", skill: "Anveshan" },
+            { s: 31, adm: "R-26/3002", name: "SHOURYA BALI", house: "Yamuna", sub: "Physical Education (048)", sport: "Athletics", skill: "Unassigned" },
+            { s: 32, adm: "R-24/2472", name: "SHREYANSH GUPTA", house: "Yamuna", sub: "Physical Education (048)", sport: "Basketball", skill: "Unassigned" },
+            { s: 33, adm: "R-16/0032", name: "SPANDAN BHARGAVA", house: "Jhelum", sub: "Physical Education (048)", sport: "Basketball", skill: "Unassigned" },
+            { s: 34, adm: "R-21/1013", name: "SURAJ CHAUDHARY", house: "Jhelum", sub: "Physical Education (048)", sport: "", skill: "Unassigned" },
+            { s: 35, adm: "R-22/1211", name: "VANSH KUMAR", house: "Yamuna", sub: "Artificial Intelligence", sport: "Athletics", skill: "Snap Sphere" },
+            { s: 36, adm: "R-21/978", name: "VASU BHARDWAJ", house: "Yamuna", sub: "Physical Education (048)", sport: "Football", skill: "Unassigned" },
+            { s: 37, adm: "R-15/0005", name: "VIHAAN YADAV", house: "Yamuna", sub: "Physical Education (048)", sport: "", skill: "Unassigned" },
+            { s: 38, adm: "R-23/2013", name: "VIRAJ TRIPATHI", house: "Yamuna", sub: "Psychology (037)", sport: "Badminton", skill: "Unassigned" },
+            { s: 39, adm: "R-26/2877", name: "VISHESH", house: "Yamuna", sub: "Physical Education (048)", sport: "Football", skill: "Declamation" },
+            { s: 40, adm: "R-24/2335", name: "YAHVI UPADHYAY", house: "Chenab", sub: "Psychology (037)", sport: "Badminton", skill: "Be-Well" }
         ];
 
         const tbody = document.getElementById('tableBody');
         students.forEach(student => {
             const row = document.createElement('tr');
+            
+            // Apply unassigned placeholder style if data is missing/empty
+            const sportClass = student.sport ? 'badge-sport' : 'badge-sport unassigned';
+            const skillClass = student.skill === 'Unassigned' ? 'badge-skill unassigned' : 'badge-skill';
+            
             row.innerHTML = `
                 <td class="sno">${student.s}</td>
                 <td class="adm-no">${student.adm}</td>
                 <td class="student-name">${student.name}</td>
                 <td>${student.house}</td>
                 <td><span class="badge">${student.sub}</span></td>
-                <td><span class="badge-sport">${student.sport || 'Pending'}</span></td>
+                <td><span class="${sportClass}">${student.sport || 'Pending'}</span></td>
+                <td><span class="${skillClass}">${student.skill}</span></td>
             `;
             tbody.appendChild(row);
         });
